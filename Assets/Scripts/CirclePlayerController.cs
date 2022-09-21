@@ -26,13 +26,6 @@ public class CirclePlayerController : MonoBehaviour
         {
             _rb.velocity = new Vector2(velocity.x, JumpingPower);
         }
-
-        if (Input.GetButtonUp("Jump") && _rb.velocity.y > 0f)
-        {
-            velocity = new Vector2(velocity.x, velocity.y * 0.5f);
-            _rb.velocity = velocity;
-        }
-
     }
 
     private void FixedUpdate()
