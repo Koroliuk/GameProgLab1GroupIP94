@@ -11,6 +11,7 @@ public class CirclePlayerController : MonoBehaviour
     
     private float _horizontal;
     private Rigidbody2D _rb;
+    private bool _isGrounded = true;
     
     private void Start()
     {
@@ -22,8 +23,9 @@ public class CirclePlayerController : MonoBehaviour
         _horizontal = Input.GetAxisRaw("Horizontal");
         
         var velocity = _rb.velocity;
-        if (Input.GetButtonDown("Jump") && IsPlayerGrounded())
+        if (Input.GetButtonDown("Jump") && _isGrounded)
         {
+            _isGrounded = false;
             _rb.velocity = new Vector2(velocity.x, JumpingPower);
         }
     }
@@ -31,11 +33,12 @@ public class CirclePlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         _rb.velocity = new Vector2(Speed * _horizontal, _rb.velocity.y);
+        CheckIfPlayerGrounded();
     }
 
-    private bool IsPlayerGrounded()
-    { 
-        return Physics2D.OverlapCircle(groundCheck.position, OverlapCircleRadius, groundLayer);
+    private void CheckIfPlayerGrounded()
+    {
+        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, OverlapCircleRadius, groundLayer);
     }
     
 }
